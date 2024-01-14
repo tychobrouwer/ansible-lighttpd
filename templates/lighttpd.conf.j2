@@ -1,8 +1,8 @@
-server.document-root       = "/var/www/html/{{ role_website_name }}/{{ role_server_root }}"
+server.document-root       = "/var/www/html/{{ lighttpd_website_name }}/{{ lighttpd_server_root }}"
 
-server.port                = {{ role_server_port }}
-server.username            = "{{ role_lighttpd_user }}"
-server.groupname           = "{{ role_lighttpd_user }}"
+server.port                = {{ lighttpd_server_port }}
+server.username            = "{{ lighttpd_user }}"
+server.groupname           = "{{ lighttpd_user }}"
 server.bind                = "{{ inventory_hostname }}"
 server.tag                 = "lighttpd"
 
@@ -19,7 +19,7 @@ server.modules             = (
 )
 
 var.common-response-header += (
-        "Access-Control-Allow-Origin"           => "{{ role_server_address }}",
+        "Access-Control-Allow-Origin"           => "{{ lighttpd_server_address }}",
         "Access-Control-Allow-Credentials"      => "true",
         "Access-Control-Allow-Methods"          => "GET,HEAD,OPTIONS,POST,PUT",
         "Access-Control-Allow-Headers"          => "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
@@ -85,8 +85,8 @@ mimetype.assign            = (
   ".json"         =>      "application/json"
 )
 
-index-file.names           = ( "{{ role_entry_file }}" )
+index-file.names           = ( "{{ lighttpd_entry_file }}" )
 
-{% for rule in role_lighttpd_rules %}
+{% for rule in lighttpd_rules %}
 {{ rule }}
 {% endfor %}

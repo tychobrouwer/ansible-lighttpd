@@ -4,15 +4,15 @@
 
   roles:
     - role: TychoBrouwer.git
-      role_git_name: Test Test
-      role_git_email: test@test.com
+      git_name: Test Test
+      git_email: test@test.com
 
     - role: lighttpd
-      role_git_source: https://github.com/TychoBrouwer/personal-website-elm.git
-      role_website_name: portfolio
-      role_server_ip: 192.168.1.106
-      role_server_address: https://mywebsite.com
-      role_lighttpd_rules:
+      lighttpd_git_source: https://github.com/TychoBrouwer/personal-website-elm.git
+      lighttpd_website_name: portfolio
+      lighttpd_server_ip: 192.168.1.106
+      lighttpd_server_address: https://mywebsite.com
+      lighttpd_rules:
         - |
           url.rewrite-once = (
             "^/(dist|images|api)/(.*)$" =>      "/$1/$2",
@@ -26,10 +26,10 @@
 
   tasks:
     - name: Check if rules in config
-      replace:
+      ansible.builtin.replace:
         path: /etc/lighttpd/lighttpd.conf
         regexp: "{{ item }}"
-      check_mode: yes
+      check_mode: true
       register: block_exists
       failed_when: block_exists.changed
-      with_items: role_lighttpd_rules
+      with_items: "{{ lighttpd_rules }}"
