@@ -1,0 +1,73 @@
+---
+# tasks file for lighttpd
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure lighttpd is installed
+  ansible.builtin.package:
+    name: lighttpd
+    state: present
+
+- name: Make sure lighttpd is started
+  ansible.builtin.service:
+    name: lighttpd
+    state: started
+    enabled: true
+
+- name: Ensure lighttpd config file is present
+  ansible.builtin.template:
+    src: lighttpd.conf.j2
+    dest: /etc/lighttpd/lighttpd.conf
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart lighttpd
+
+- name: Create additional rules in lighttpd config
+  ansible.builtin.blockinfile:
+    path: /etc/lighttpd/lighttpd.conf
+    block: "{{ item }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK RULE INDEX {{ idx }}"
+    append_newline: true
+    prepend_newline: true
+  loop: "{{ role_lighttpd_rules }}"
+  loop_control:
+    index_var: idx
+
+- name: Create lighttpd group
+  ansible.builtin.group:
+    name: "{{ role_lighttpd_user }}"
+    state: present
+
+- name: Create lighttpd user
+  ansible.builtin.user:
+    name: "{{ role_lighttpd_user }}"
+    group: "{{ role_lighttpd_user }}"
+    home: /var/www/html
+    shell: /sbin/nologin
+    state: present
+
+- name: Set log directory permissions
+  ansible.builtin.file:
+    path: /var/log/lighttpd
+    owner: "{{ role_lighttpd_user }}"
+    group: "{{ role_lighttpd_user }}"
+    recurse: true
+
+- name: Create lighttpd tmp directory
+  ansible.builtin.file:
+    path: /tmp/lighttpdcompress
+    state: directory
+    owner: "{{ role_lighttpd_user }}"
+    group: "{{ role_lighttpd_user }}"
+    mode: '0755'
+
+- name: Clone website to local
+  ansible.builtin.git:
+    repo: "{{ role_git_source }}"
+    dest: "/var/www/html/{{ role_website_name }}"
+    single_branch: true
+    version: main
+    depth: 1

@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: all
+
+  roles:
+    - role: lighttpd
+      role_git_source: https://github.com/TychoBrouwer/personal-website-elm.git
+      role_website_name: portfolio
+      role_server_ip: 192.168.1.106
+      role_server_address: https://mywebsite.com
+      role_lighttpd_rules:
+        - |
+          url.rewrite-once = (
+            "^/(dist|images|api)/(.*)$" =>      "/$1/$2",
+            "^/robots.txt$"             =>      "/robots.txt",
+            ".*"                        =>      "/"
+          )
+        - |
+          url.redirect = (
+            "^/(projects)$"             =>      "/index.html"
+          )
+      

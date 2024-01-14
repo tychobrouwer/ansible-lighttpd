@@ -1,0 +1,9 @@
+---
+# vars file for lighttpd
+role_lighttpd_user: lighttpd
+
+role_server_port: 80
+role_entry_file: index.html
+role_server_root: public
+
+role_lighttpd_rules: []
