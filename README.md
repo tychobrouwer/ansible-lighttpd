@@ -11,17 +11,17 @@ Keep in mind parts of the config are specific to my server configuration and web
 Role Variables
 --------------
 
-The ```git_source``` variable should be used to set to the address of the git repository for the website.
+The ```lighttpd_git_source``` variable should be used to set to the address of the git repository for the website.
 
-The variable ```website_name``` is used to set the website name (directory created for website) and the ```role_server_root``` should be used to set the website root relative to the git repository.
+The variable ```lighttpd_website_name``` is used to set the website name (directory created for website) and the ```lighttpd_server_root``` should be used to set the website root relative to the git repository.
 
-```role_entry_file``` should be used to set the entry file for the website.
+```lighttpd_entry_file``` should be used to set the entry file for the website.
 
-The ```role_server_ip```, ```role_server_port```, and ```role_server_address``` variables should be used to set the internal server ip, the port of lighttpd, and the website address respectively.
+The ```lighttpd_server_port``` and ```lighttpd_server_address``` variables should be used to set the the port of lighttpd and the website address respectively.
 
-The ```role_lighttpd_user``` variable can be used to set the user lighttpd is running as.
+The ```lighttpd_user``` variable can be used to set the user lighttpd is running as.
 
-Additional rules in the config can be added by setting the ```role_lighttpd_rules``` variable to a list of (multiline) strings.
+Additional rules in the config can be added by setting the ```lighttpd_rules``` variable to a list of (multiline) strings.
 
 Example Playbook
 ----------------
@@ -42,12 +42,11 @@ Example Playbook
           )
 
     roles:
-      - { role: lighttpd, role_git_source: git@github.com:username/repo.git,
-          role_website_name: portfolio, role_server_ip: 192.168.1.106, role_server_address: https://mywebsite.com }
-      - { role: lighttpd, role_git_source: git@github.com:username/repo.git,
-          role_website_name: portfolio, role_server_ip: 192.168.1.106, role_server_address: https://mywebsite.com,
-          role_server_port: 80, role_lighttpd_user: lighttpd, role_entry_file: index.html,
-          role_lighttpd_rules: {{ lighttpd_rules }}, role_server_root: public }
+      - { role: lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
+          lighttpd_website_name: portfolio, lighttpd_server_address: https://mywebsite.com }
+      - { role: lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
+          lighttpd_website_name: portfolio, lighttpd_server_address: https://mywebsite.com,
+          lighttpd_server_port: 80, lighttpd_user: lighttpd, lighttpd_entry_file: index.html, lighttpd_server_root: public }
 ```
 
 License

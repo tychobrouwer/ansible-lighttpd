@@ -10,7 +10,6 @@
     - role: lighttpd
       lighttpd_git_source: https://github.com/TychoBrouwer/personal-website-elm.git
       lighttpd_website_name: portfolio
-      lighttpd_server_ip: 192.168.1.106
       lighttpd_server_address: https://mywebsite.com
       lighttpd_rules:
         - |
