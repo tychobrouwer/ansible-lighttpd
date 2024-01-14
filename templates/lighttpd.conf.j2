@@ -3,7 +3,7 @@ server.document-root       = "/var/www/html/{{ lighttpd_website_name }}/{{ light
 server.port                = {{ lighttpd_server_port }}
 server.username            = "{{ lighttpd_user }}"
 server.groupname           = "{{ lighttpd_user }}"
-server.bind                = "{{ inventory_hostname }}"
+server.bind                = "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
 server.tag                 = "lighttpd"
 
 server.errorlog            = "/var/log/lighttpd/error.log"
