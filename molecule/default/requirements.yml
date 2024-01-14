@@ -1,2 +1,3 @@
 ---
-- src: tychobrouwer.git
+roles:
+  - src: tychobrouwer.git

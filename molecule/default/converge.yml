@@ -3,7 +3,7 @@
   hosts: all
 
   roles:
-    - role: TychoBrouwer.git
+    - role: tychobrouwer.git
       git_name: Test Test
       git_email: test@test.com
 

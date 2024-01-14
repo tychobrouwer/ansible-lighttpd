@@ -2,6 +2,8 @@
 role_name_check: 1
 dependency:
   name: galaxy
+  options:
+    force: true
 driver:
   name: docker
 platforms:
@@ -15,6 +17,3 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  env:
-    ANSIBLE_LOCAL_TEMP: "${WORKSPACE:-$HOME}/.ansible/tmp"
-    ANSIBLE_REMOTE_TMP: /tmp
