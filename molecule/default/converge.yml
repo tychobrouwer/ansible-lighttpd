@@ -3,6 +3,10 @@
   hosts: all
 
   roles:
+    - role: TychoBrouwer.git
+      role_git_name: Test Test
+      role_git_email: test@test.com
+
     - role: lighttpd
       role_git_source: https://github.com/TychoBrouwer/personal-website-elm.git
       role_website_name: portfolio
