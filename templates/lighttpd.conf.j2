@@ -3,7 +3,7 @@ server.document-root       = "/var/www/html/{{ role_website_name }}/{{ role_serv
 server.port                = {{ role_server_port }}
 server.username            = "{{ role_lighttpd_user }}"
 server.groupname           = "{{ role_lighttpd_user }}"
-server.bind                = "{{ role_server_ip }}"
+server.bind                = "{{ inventory_hostname }}"
 server.tag                 = "lighttpd"
 
 server.errorlog            = "/var/log/lighttpd/error.log"
@@ -87,3 +87,6 @@ mimetype.assign            = (
 
 index-file.names           = ( "{{ role_entry_file }}" )
 
+{% for rule in role_lighttpd_rules %}
+{{ rule }}
+{% endfor %}

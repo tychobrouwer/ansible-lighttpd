@@ -1,5 +1,6 @@
 galaxy_info:
   role_name: lighttpd
+  namespace: tychobrouwer
   author: Tycho Brouwer
   description: Installs and configures Lighttpd for my server
 

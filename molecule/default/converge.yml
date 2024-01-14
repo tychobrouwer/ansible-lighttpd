@@ -23,4 +23,13 @@
           url.redirect = (
             "^/(projects)$"             =>      "/index.html"
           )
-      
+
+  tasks:
+    - name: Check if rules in config
+      replace:
+        path: /etc/lighttpd/lighttpd.conf
+        regexp: "{{ item }}"
+      check_mode: yes
+      register: block_exists
+      failed_when: block_exists.changed
+      with_items: role_lighttpd_rules
