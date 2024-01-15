@@ -42,9 +42,9 @@ Example Playbook
           )
 
     roles:
-      - { role: lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
+      - { role: tychobrouwer.lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
           lighttpd_website_name: portfolio, lighttpd_server_address: https://mywebsite.com }
-      - { role: lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
+      - { role: tychobrouwer.lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
           lighttpd_website_name: portfolio, lighttpd_server_address: https://mywebsite.com,
           lighttpd_server_port: 80, lighttpd_user: lighttpd, lighttpd_entry_file: index.html, lighttpd_server_root: public }
 ```
