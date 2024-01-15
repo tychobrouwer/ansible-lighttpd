@@ -52,12 +52,12 @@
     state: directory
     owner: "{{ lighttpd_user }}"
     group: "{{ lighttpd_user }}"
-    mode: '0755'
+    mode: "0755"
 
 - name: Clone website to local
   ansible.builtin.git:
     repo: "{{ git_source }}"
-    dest: "/var/www/html/{{ lighttpd_website_name }}"
+    dest: /var/www/html/{{ lighttpd_website_name }}
     single_branch: true
     version: main
     depth: 1
