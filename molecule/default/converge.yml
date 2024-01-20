@@ -7,7 +7,7 @@
       git_name: Test Test
       git_email: test@test.com
 
-    - role: lighttpd
+    - role: ansible-lighttpd
       lighttpd_git_source: https://github.com/TychoBrouwer/personal-website-elm.git
       lighttpd_website_name: portfolio
       lighttpd_server_address: https://mywebsite.com
