@@ -56,7 +56,7 @@
 
 - name: Clone website to local
   ansible.builtin.git:
-    repo: "{{ git_source }}"
+    repo: "{{ lighttpd_git_source }}"
     dest: /var/www/html/{{ lighttpd_website_name }}
     single_branch: true
     version: main
