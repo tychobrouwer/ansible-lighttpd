@@ -54,6 +54,25 @@
     group: "{{ lighttpd_user }}"
     mode: "0755"
 
+- name: Script to set correct permissions on log directory
+  ansible.builtin.copy:
+    content: |
+      #!/bin/bash
+      chown -R {{ lighttpd_user }}:{{ lighttpd_user }} /var/log/lighttpd
+    dest: /root/fix-lighttpd-log-permissions.sh
+    mode: "0755"
+
+- name: Add run script on service startup
+  ansible.builtin.copy:
+    path: /etc/systemd/service/lighttpd.service.d/override.conf
+    content: |
+      [Service]
+      ExecStartPre=/root/fix-lighttpd-log-permissions.sh
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart lighttpd
+
 - name: Clone website to local
   ansible.builtin.git:
     repo: "{{ lighttpd_git_source }}"
