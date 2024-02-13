@@ -44,6 +44,7 @@
     path: /var/log/lighttpd
     owner: "{{ lighttpd_user }}"
     group: "{{ lighttpd_user }}"
+    mode: "0755"
     recurse: true
 
 - name: Create lighttpd tmp directory
@@ -64,7 +65,7 @@
 
 - name: Add run script on service startup
   ansible.builtin.copy:
-    path: /etc/systemd/service/lighttpd.service.d/override.conf
+    dest: /etc/systemd/service/lighttpd.service.d/override.conf
     content: |
       [Service]
       ExecStartPre=/root/fix-lighttpd-log-permissions.sh
