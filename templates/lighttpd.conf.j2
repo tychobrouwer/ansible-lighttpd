@@ -28,7 +28,8 @@ var.common-response-header += (
 setenv.add-response-header = var.common-response-header
 
 deflate.cache-dir = "/tmp/lighttpdcompress/"
-deflate.mimetypes  = ("text/plain","text/css", "text/xml", "text/javascript" )
+deflate.mimetypes = ( "text/html", "text/plain", "text/css", "text/xml", "text/javascript" )
+deflate.allowed-encodings = ( "gzip", "deflate" )
 
 # mimetype mapping
 mimetype.assign            = (
@@ -60,6 +61,8 @@ mimetype.assign            = (
   ".xpm"          =>      "image/x-xpixmap",
   ".xwd"          =>      "image/x-xwindowdump",
   ".webp"         =>      "image/webp",
+  ".svg"          =>      "image/svg+xml",
+  ".svgz"         =>      "image/svg+xml",
   ".css"          =>      "text/css",
   ".html"         =>      "text/html",
   ".htm"          =>      "text/html",
