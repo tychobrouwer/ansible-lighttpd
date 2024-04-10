@@ -65,7 +65,7 @@
 
 - name: Create directory for lighttpd service override
   ansible.builtin.file:
-    path: /etc/systemd/service/lighttpd.service.d
+    path: /lib/systemd/system/lighttpd.service.d
     state: directory
 
 - name: Add run script on service startup
