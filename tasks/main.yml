@@ -55,14 +55,6 @@
     group: "{{ lighttpd_user }}"
     mode: "0755"
 
-- name: Script to set correct permissions on log directory
-  ansible.builtin.copy:
-    content: |
-      #!/bin/bash
-      chown -R {{ lighttpd_user }}:{{ lighttpd_user }} /var/log/lighttpd
-    dest: /root/fix-lighttpd-log-permissions.sh
-    mode: "0755"
-
 - name: Create directory for lighttpd service override
   ansible.builtin.file:
     path: /lib/systemd/system/lighttpd.service.d
@@ -70,10 +62,10 @@
 
 - name: Add run script on service startup
   ansible.builtin.copy:
-    dest: /etc/systemd/service/lighttpd.service.d/override.conf
+    dest: /lib/systemd/system/lighttpd.service.d/override.conf
     content: |
       [Service]
-      ExecStartPre=/root/fix-lighttpd-log-permissions.sh
+      ExecStartPre=chown -R {{ lighttpd_user }}:{{ lighttpd_user }} /var/log/lighttpd
     owner: root
     group: root
     mode: "0644"
