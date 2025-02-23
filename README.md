@@ -27,26 +27,32 @@ Example Playbook
 ----------------
 
 ```yaml
-  - hosts: servers
-    vars:
-      lighttpd_rules:
-        - |
-          url.rewrite-once = (
-            "^/(dist|images|api)/(.*)$" =>      "/$1/$2",
-            "^/robots.txt$"             =>      "/robots.txt",
-            ".*"                        =>      "/"
-          )
-        - |
-          url.redirect = (
-            "^/(projects)$"             =>      "/index.html"
-          )
+- hosts: servers
+  vars:
+    lighttpd_git_source: git@github.com:username/repo.git
+    lighttpd_website_name: portfolio
+    lighttpd_server_address: https://mywebsite.com
 
-    roles:
-      - { role: tychobrouwer.lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
-          lighttpd_website_name: portfolio, lighttpd_server_address: https://mywebsite.com }
-      - { role: tychobrouwer.lighttpd, lighttpd_git_source: git@github.com:username/repo.git,
-          lighttpd_website_name: portfolio, lighttpd_server_address: https://mywebsite.com,
-          lighttpd_server_port: 80, lighttpd_user: lighttpd, lighttpd_entry_file: index.html, lighttpd_server_root: public }
+    lighttpd_rules:
+      - |
+        url.rewrite-once = (
+          "^/(dist|images|api)/(.*)$" =>      "/$1/$2",
+          "^/robots.txt$"             =>      "/robots.txt",
+          ".*"                        =>      "/"
+        )
+      - |
+        url.redirect = (
+          "^/(projects)$"             =>      "/index.html"
+        )
+
+  roles:
+    - role: tychobrouwer.lighttpd
+
+    - role: tychobrouwer.lighttpd
+      lighttpd_server_port: 80
+      lighttpd_user: lighttpd
+      lighttpd_entry_file: index.html
+      lighttpd_server_root: public
 ```
 
 License
