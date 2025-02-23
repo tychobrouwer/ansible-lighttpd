@@ -1,23 +1,17 @@
 ---
 # tasks file for lighttpd
-- name: Update apt cache
+- name: Update APT cache
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
   when: ansible_os_family == 'Debian'
 
-- name: Ensure lighttpd is installed
+- name: Install Lighttpd
   ansible.builtin.package:
     name: lighttpd
     state: present
 
-- name: Make sure lighttpd is started
-  ansible.builtin.service:
-    name: lighttpd
-    state: started
-    enabled: true
-
-- name: Ensure lighttpd config file is present
+- name: Ensure Lighttpd configuration file is present
   ansible.builtin.template:
     src: lighttpd.conf.j2
     dest: /etc/lighttpd/lighttpd.conf
@@ -26,12 +20,12 @@
     group: root
   notify: Restart lighttpd
 
-- name: Create lighttpd group
+- name: Create Lighttpd user and group
   ansible.builtin.group:
     name: "{{ lighttpd_user }}"
     state: present
 
-- name: Create lighttpd user
+- name: Create Lighttpd user
   ansible.builtin.user:
     name: "{{ lighttpd_user }}"
     group: "{{ lighttpd_user }}"
@@ -47,7 +41,7 @@
     mode: "0755"
     recurse: true
 
-- name: Create lighttpd tmp directory
+- name: Create temporary directory for Lighttpd
   ansible.builtin.file:
     path: /tmp/lighttpdcompress
     state: directory
@@ -55,10 +49,13 @@
     group: "{{ lighttpd_user }}"
     mode: "0755"
 
-- name: Create directory for lighttpd service override
+- name: Create directory for Lighttpd service override
   ansible.builtin.file:
     path: /lib/systemd/system/lighttpd.service.d
     state: directory
+    owner: root
+    group: root
+    mode: "0755"
 
 - name: Add run script on service startup
   ansible.builtin.copy:
@@ -71,6 +68,7 @@
     mode: "0644"
   notify: Restart lighttpd
 
+
 - name: Clone website to local
   ansible.builtin.git:
     repo: "{{ lighttpd_git_source }}"
@@ -79,3 +77,9 @@
     version: main
     depth: 1
   notify: Restart lighttpd
+
+- name: Ensure Lighttpd service is enabled and started
+  ansible.builtin.systemd:
+    name: lighttpd
+    state: started
+    enabled: true
